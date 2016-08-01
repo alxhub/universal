@@ -48,7 +48,7 @@ import {DOCUMENT} from '@angular/platform-browser/src/dom/dom_tokens';
 import {DomRootRenderer} from '@angular/platform-browser/src/dom/dom_renderer';
 import {RootRenderer} from '@angular/core/src/render/api';
 
-import {TemplateParser} from '@angular/compiler/src/template_parser';
+import {TemplateParser} from '@angular/compiler/src/template_parser/template_parser';
 
 import {NodeDomRootRenderer_} from './dom/node_dom_renderer';
 import {NodeXHRImpl} from './node_xhr_impl';
@@ -143,7 +143,7 @@ export const NODE_APP_COMMON_PROVIDERS: Array<any> = CONST_EXPR([
 /**
  * An array of providers that should be passed into `application()` when bootstrapping a component.
  */
- const templateParser = isRc0 ? NodeTemplateParserRc0 : isRc4 ? NodeTemplateParser : NodeTemplateParserRc13;
+ const templateParser = isRc0 ? NodeTemplateParserRc0 : isRc4 ? NodeTemplateParser : NodeTemplateParserRc13
 export const NODE_APP_PROVIDERS: Array<any> = CONST_EXPR([
   ...NODE_APP_COMMON_PROVIDERS,
   ...COMPILER_PROVIDERS,

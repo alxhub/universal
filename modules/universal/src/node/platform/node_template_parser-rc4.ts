@@ -19,20 +19,20 @@ import {BaseException} from '@angular/core/src/facade/exceptions';
 import {AST, Interpolation, ASTWithSource, TemplateBinding, RecursiveAstVisitor, BindingPipe} from '@angular/compiler/src/expression_parser/ast';
 import {Parser} from '@angular/compiler/src/expression_parser/parser';
 import {CompileDirectiveMetadata, CompilePipeMetadata, CompileMetadataWithType,} from '@angular/compiler/src/compile_metadata';
-import {HtmlParser} from '@angular/compiler/src/html_parser';
-import {splitNsName, mergeNsAndName} from '@angular/compiler/src/html_tags';
+import {HtmlParser} from '@angular/compiler/src/html_parser/html_parser';
+import {splitNsName, mergeNsAndName} from '@angular/compiler/src/html_parser/html_tags';
 import {ParseSourceSpan, ParseError, ParseErrorLevel} from '@angular/compiler/src/parse_util';
-import {InterpolationConfig} from '@angular/compiler/src/interpolation_config';
+import {InterpolationConfig} from '@angular/compiler/src/html_parser/interpolation_config';
 
-import {ElementAst, BoundElementPropertyAst, BoundEventAst, ReferenceAst, TemplateAst, TemplateAstVisitor, templateVisitAll, TextAst, BoundTextAst, EmbeddedTemplateAst, AttrAst, NgContentAst, PropertyBindingType, DirectiveAst, BoundDirectivePropertyAst, ProviderAst, ProviderAstType, VariableAst} from '@angular/compiler/src/template_ast';
+import {ElementAst, BoundElementPropertyAst, BoundEventAst, ReferenceAst, TemplateAst, TemplateAstVisitor, templateVisitAll, TextAst, BoundTextAst, EmbeddedTemplateAst, AttrAst, NgContentAst, PropertyBindingType, DirectiveAst, BoundDirectivePropertyAst, ProviderAst, ProviderAstType, VariableAst} from '@angular/compiler/src/template_parser/template_ast';
 import {CssSelector, SelectorMatcher} from '@angular/compiler/src/selector';
 
 import {ElementSchemaRegistry} from '@angular/compiler/src/schema/element_schema_registry';
-import {preparseElement, PreparsedElementType} from '@angular/compiler/src/template_preparser';
+import {preparseElement, PreparsedElementType} from '@angular/compiler/src/template_parser/template_preparser';
 
 import {isStyleUrlResolvable} from '@angular/compiler/src/style_url_resolver';
 
-import {HtmlAstVisitor, HtmlElementAst, HtmlAttrAst, HtmlTextAst, HtmlCommentAst, HtmlExpansionAst, HtmlExpansionCaseAst, htmlVisitAll} from '@angular/compiler/src/html_ast';
+import {HtmlAstVisitor, HtmlElementAst, HtmlAttrAst, HtmlTextAst, HtmlCommentAst, HtmlExpansionAst, HtmlExpansionCaseAst, htmlVisitAll} from '@angular/compiler/src/html_parser/html_ast';
 
 import {splitAtColon} from '@angular/compiler/src/util';
 import {identifierToken, Identifiers} from '@angular/compiler/src/identifiers';
@@ -76,7 +76,7 @@ var TEXT_CSS_SELECTOR = CssSelector.parse('*')[0];
    TEMPLATE_TRANSFORMS,
    TemplateParseError,
    TemplateParseResult
- } from '@angular/compiler/src/template_parser';
+ } from '@angular/compiler/src/template_parser/template_parser';
 
 @Injectable()
 export class NodeTemplateParser {
