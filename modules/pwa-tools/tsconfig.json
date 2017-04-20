@@ -4,9 +4,11 @@
     "experimentalDecorators": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "noEmitOnError": true,
     "outDir": "dist",
     "target": "es5",
     "lib": [
+      "dom",
       "es2015"
     ],
     "typeRoots": [
