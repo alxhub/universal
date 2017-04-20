@@ -1,0 +1,1 @@
+export * from './lib/ng-pwa-shell';
