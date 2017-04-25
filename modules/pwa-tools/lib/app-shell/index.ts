@@ -1,14 +1,19 @@
 import 'reflect-metadata';
 import 'zone.js/dist/zone-node.js';
 
-import {enableProdMode, NgModule, NgModuleFactory, NgModuleFactoryLoader, ReflectiveInjector} from '@angular/core';
+import {enableProdMode, Provider, NgModule, NgModuleFactory, NgModuleFactoryLoader, ReflectiveInjector} from '@angular/core';
 import {COMPILER_PROVIDERS, JitCompiler, ResourceLoader} from '@angular/compiler';
 import {ServerModule, renderModuleFactory} from '@angular/platform-server';
+import {XSRFStrategy, Request} from '@angular/http';
 import {jitCompiler, loadNgModule} from '../common/ng';
 import {toAbsolute} from '../common/util';
 
 import * as fs from 'fs';
 import * as path from 'path';
+
+export class FakeXsrfStrategy implements XSRFStrategy {
+  configureRequest(req: Request): void {}
+}
 
 export interface GenerateAppShellArgs {
   appModule: string;
@@ -34,7 +39,9 @@ function makeServerModule(args: GenerateAppShellArgs): any {
   }
   imports.push(ServerModule);
 
-  let providers = [];
+  let providers: Provider[] = [
+    {provide: XSRFStrategy, useClass: FakeXsrfStrategy},
+  ];
   if (args.loadChildrenRoot) {
     providers.push({
       provide: NgModuleFactoryLoader,

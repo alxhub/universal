@@ -12,7 +12,7 @@ function sha1(file: string): string {
 }
 
 export interface StaticManifest {
-  [url: string]: string;
+  urls: {[url: string]: string};
 }
 
 export function genStaticManifest(dist: string, baseUrl: string = '/'): Promise<StaticManifest> {
@@ -21,9 +21,9 @@ export function genStaticManifest(dist: string, baseUrl: string = '/'): Promise<
   }
   const manifest = recursiveListDir(dist)
     .reduce((manifest, entry) => {
-      manifest[`${baseUrl}/${entry}`] = sha1(path.join(dist, entry));
+      manifest.urls[`${baseUrl}/${entry}`] = sha1(path.join(dist, entry));
       return manifest;
-    }, {} as StaticManifest);
+    }, {urls: {}} as StaticManifest);
   return Promise.resolve(manifest);
 }
 

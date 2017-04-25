@@ -81,6 +81,9 @@ function toFbCompatibleTerminal({path, loadChildren, prefix}: TerminalRoute, chu
   if (state === FbTerminalEvalState.PREFIX && prefix) {
     url += url.endsWith('/') ? '*' : '/*';
   }
+  if (url.endsWith('/') && url !== '/') {
+    url = url.substr(0, url.length - 1);
+  }
   const chunks = resolveLazyChunks(chunkMap, loadChildren);
   return {url, chunks};
 }
