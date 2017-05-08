@@ -9,7 +9,7 @@ import {requiredArgs} from '../lib/common/args';
 import {toAbsolute} from '../lib/common/util';
 
 const args = minimist(process.argv.slice(2), {
-  string: ['module', 'base-href', 'dist', 'lazy-root', 'index', 'in'],
+  string: ['module', 'base-href', 'dist', 'lazy-root', 'index', 'in', 'out'],
 });
 
 requiredArgs(args, ['dist', 'module', 'lazy-root', 'index']);
@@ -33,4 +33,12 @@ if (args['in']) {
 }
 
 generateFbPushConfig(config)
-  .then(config => console.log(JSON.stringify(config, null, 2)));
+  .then(config => JSON.stringify(config, null, 2))
+  .then(config => {
+    if (args['out']) {
+      const out = toAbsolute(args['out']);
+      fs.writeFileSync(out, config);
+    } else {
+      console.log(config);
+    }
+  });

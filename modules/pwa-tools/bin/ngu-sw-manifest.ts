@@ -9,7 +9,7 @@ import {requiredArgs} from '../lib/common/args';
 import {toAbsolute} from '../lib/common/util';
 
 const args = minimist(process.argv.slice(2), {
-  string: ['in', 'module', 'base-href', 'dist', 'lazy-root', 'index'],
+  string: ['in', 'module', 'base-href', 'dist', 'lazy-root', 'index', 'out'],
 });
 
 requiredArgs(args, ['dist', 'module', 'lazy-root']);
@@ -37,4 +37,12 @@ generateSwManifest({
   routing: true,
   static: true,
 })
-  .then(manifest => console.log(JSON.stringify(manifest, null, 2)));
+  .then(manifest => JSON.stringify(manifest, null, 2))
+  .then(manifest => {
+    if (args['out']) {
+      const out = toAbsolute(args['out']);
+      fs.writeFileSync(out, manifest);
+    } else {
+      console.log(manifest);
+    }
+  });

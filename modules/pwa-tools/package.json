@@ -1,6 +1,6 @@
 {
   "name": "pwa-tools",
-  "version": "0.0.5",
+  "version": "0.0.6-test.1",
   "bin": {
     "ngu-app-shell": "./bin/ngu-app-shell.js",
     "ngu-firebase-push": "./bin/ngu-firebase-push.js",
