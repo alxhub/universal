@@ -53,7 +53,14 @@ export function generateSwManifest(args: GenerateSwManifestArgs): Promise<Object
 
   let mStatic: Promise<StaticManifest|null> = Promise.resolve(null);
   if (args.static) {
-    mStatic = genStaticManifest(args.dist!, args.baseHref);
+    mStatic = genStaticManifest(args.dist!, args.baseHref, manifest['static.ignore'])
+      .then(urls => {
+        const staticSection: StaticManifest = {urls};
+        if (manifest.hasOwnProperty('static.versioned')) {
+          staticSection.versioned = manifest['static.versioned'] as string[];
+        }
+        return manifest;
+      });
   }
 
   return Promise
@@ -65,6 +72,10 @@ export function generateSwManifest(args: GenerateSwManifestArgs): Promise<Object
       if (args.static) {
         mergeConfig(manifest, {static: cStatic});
       }
+      Object
+        .keys(manifest)
+        .filter(key => key.startsWith('static.'))
+        .forEach(key => delete manifest[key]);
       return manifest;
     });
 }

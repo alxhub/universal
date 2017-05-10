@@ -12,18 +12,25 @@ function sha1(file: string): string {
 }
 
 export interface StaticManifest {
-  urls: {[url: string]: string};
+  urls: UrlManifest;
+  versioned?: string[];
 }
 
-export function genStaticManifest(dist: string, baseUrl: string = '/'): Promise<StaticManifest> {
+export interface UrlManifest {
+  [url: string]: string;
+}
+
+export function genStaticManifest(dist: string, baseUrl: string = '/', ignore: string[] = []): Promise<UrlManifest> {
   if (baseUrl.endsWith('/')) {
     baseUrl = baseUrl.substr(0, baseUrl.length - 1);
   }
+  const ignoreList = ignore.map(regex => new RegExp(regex));
   const manifest = recursiveListDir(dist)
+    .filter(entry => !ignoreList.some(ignore => ignore.test(entry)))
     .reduce((manifest, entry) => {
       manifest.urls[`${baseUrl}/${entry}`] = sha1(path.join(dist, entry));
       return manifest;
-    }, {urls: {}} as StaticManifest);
+    }, {} as UrlManifest);
   return Promise.resolve(manifest);
 }
 
