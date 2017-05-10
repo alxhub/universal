@@ -59,7 +59,7 @@ export function generateSwManifest(args: GenerateSwManifestArgs): Promise<Object
         if (manifest.hasOwnProperty('static.versioned')) {
           staticSection.versioned = manifest['static.versioned'] as string[];
         }
-        return manifest;
+        return staticSection;
       });
   }
 

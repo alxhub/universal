@@ -26,9 +26,9 @@ export function genStaticManifest(dist: string, baseUrl: string = '/', ignore: s
   }
   const ignoreList = ignore.map(regex => new RegExp(regex));
   const manifest = recursiveListDir(dist)
-    .filter(entry => !ignoreList.some(ignore => ignore.test(entry)))
+    .filter(entry => !ignoreList.some(ignore => ignore.test(`${baseUrl}/${entry}`)))
     .reduce((manifest, entry) => {
-      manifest.urls[`${baseUrl}/${entry}`] = sha1(path.join(dist, entry));
+      manifest[`${baseUrl}/${entry}`] = sha1(path.join(dist, entry));
       return manifest;
     }, {} as UrlManifest);
   return Promise.resolve(manifest);
