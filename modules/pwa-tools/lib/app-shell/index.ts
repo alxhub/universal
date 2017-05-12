@@ -4,7 +4,7 @@ import 'zone.js/dist/zone-node.js';
 import {enableProdMode, Provider, NgModule, NgModuleFactory, NgModuleFactoryLoader, ReflectiveInjector} from '@angular/core';
 import {COMPILER_PROVIDERS, JitCompiler, ResourceLoader} from '@angular/compiler';
 import {ServerModule, renderModuleFactory} from '@angular/platform-server';
-import {CookieXSRFStrategy, XSRFStrategy, Request} from '@angular/http';
+import {CookieXSRFStrategy, HttpModule, XSRFStrategy, Request} from '@angular/http';
 import {jitCompiler, loadNgModule} from '../common/ng';
 import {toAbsolute} from '../common/util';
 
@@ -38,11 +38,12 @@ function makeServerModule(args: GenerateAppShellArgs): any {
     imports.push(loadNgModule(args.afterAppModule));
   }
   imports.push(ServerModule);
+  imports.push(HttpModule);
 
   let providers: Provider[] = [
     {provide: XSRFStrategy, useClass: FakeXsrfStrategy},
-    {provide: CookieXSRFStrategy, useClass: FakeXsrfStrategy},
   ];
+
   if (args.loadChildrenRoot) {
     providers.push({
       provide: NgModuleFactoryLoader,
