@@ -12,11 +12,11 @@ const args = minimist(process.argv.slice(2), {
   string: ['in', 'module', 'base-href', 'dist', 'lazy-root', 'index', 'out'],
 });
 
-requiredArgs(args, ['dist', 'module', 'lazy-root']);
+requiredArgs(args, ['dist']);
 
 const dist = toAbsolute(args['dist']);
-const appModule = toAbsolute(args['module']);
-const loadChildrenRoot = toAbsolute(args['lazy-root']);
+const appModule = args['module'] ? toAbsolute(args['module']) : undefined;
+const loadChildrenRoot = args['lazy-root'] ? toAbsolute(args['lazy-root']) : undefined;
 
 const baseHref: string = args['base-href'] || '/';
 const index = (baseHref.endsWith('/') ? baseHref : baseHref + '/') + (args['index'] || 'index.html');
@@ -34,7 +34,7 @@ generateSwManifest({
   index,
   loadChildrenRoot,
   manifest,
-  routing: true,
+  routing: !!args['module'],
   static: true,
 })
   .then(manifest => JSON.stringify(manifest, null, 2))
