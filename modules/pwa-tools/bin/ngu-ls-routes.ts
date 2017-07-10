@@ -1,4 +1,6 @@
-#!/usr/bin/env node_modules/.bin/ts-node
+#!/usr/bin/env node
+
+require('ts-node/register');
 
 import minimist = require('minimist');
 
@@ -55,4 +57,3 @@ lsRoutes({appModule, baseHref, loadChildrenRoot})
     console.error('An error occurred while attempting to read routes', err);
     process.exit(1);
   });
-  
