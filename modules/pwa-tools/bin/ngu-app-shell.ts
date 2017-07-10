@@ -1,4 +1,6 @@
-#!/usr/bin/env node_modules/.bin/ts-node
+#!/usr/bin/env node
+
+require('ts-node/register');
 
 import minimist = require('minimist');
 import {requiredArgs} from '../lib/common/args';
