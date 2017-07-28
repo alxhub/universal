@@ -14,7 +14,8 @@ function recursiveListDirHelper(dir: string, prefix: string): string[] {
       .map(meta => meta.entry)
       .map(entry => recursiveListDirHelper(path.join(dir, entry), path.join(prefix, entry)))
       .reduce((acc, subDirs) => acc.concat(subDirs), [])
-    );
+    )
+    .map(entry => entry.replace(/\\/g, '/'));
 }
 
 export function recursiveListDir(dir: string): string[] {
